@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "echoforge",
+  "version": "0.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "packageManager": "pnpm@10.13.1",
+  "devDependencies": {
+    "turbo": "^2.5.5"
+  }
+}
