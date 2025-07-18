@@ -129,6 +129,9 @@ Thumbs.db
 # Turbo
 .turbo/
 
+dist/
+.env*
+
 # Build outputs
 dist/
 build/

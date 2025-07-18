@@ -1,31 +1,14 @@
 {
   "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "composite": true,
-    "outDir": "./dist",
-    "rootDir": "./",
-    "baseUrl": ".",
-    "target": "es2020",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "lib": ["es2020", "dom"],
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "incremental": true,
-    "resolveJsonModule": true,
-    "paths": {
-      "@echoforge/*": ["packages/*/src"]
-    }
-  },
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".next",
-    "*.log",
-    ".turbo"
-  ]
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
 }

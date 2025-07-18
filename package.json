@@ -2,15 +2,19 @@
   "name": "echoforge",
   "private": true,
   "version": "0.1.0",
-  "packageManager": "pnpm@9",
+  "packageManager": "pnpm@9.0.0",
   "workspaces": ["apps/*", "packages/*"],
-  "scripts": {
+"scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
+    "prepare": "husky install",
+    "prettier": "prettier --write .",
     "format": "prettier --write ."
   },
-  "devDependencies": {
+"devDependencies": {
+    "lint-staged": "^13.0.3",
+    "husky": "^8.0.0",
     "turbo": "^1.12.0",
     "typescript": "^5.4.0",
     "eslint": "^9.0.0",
