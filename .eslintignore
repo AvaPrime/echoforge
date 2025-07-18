@@ -1,0 +1,9 @@
+node_modules
+dist
+.next
+*.log
+.turbo
+coverage
+.nyc_output
+build
+*.d.ts

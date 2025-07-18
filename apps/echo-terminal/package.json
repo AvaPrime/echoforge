@@ -1,0 +1,22 @@
+{
+  "name": "@echoforge/echo-terminal",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -w",
+    "clean": "rimraf dist",
+    "lint": "eslint 'src/**/*.{ts,tsx}'",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@echoforge/echocore": "workspace:*",
+    "@echoforge/codessa": "workspace:*",
+    "@echoforge/echoui": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0"
+  }
+}

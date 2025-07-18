@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.base.json",
+  "references": [
+    {
+      "path": "./apps/echo-cloud"
+    },
+    {
+      "path": "./apps/echo-demo"
+    },
+    {
+      "path": "./apps/echo-terminal"
+    },
+    {
+      "path": "./packages/blueprint"
+    },
+    {
+      "path": "./packages/codessa"
+    },
+    {
+      "path": "./packages/echocore"
+    },
+    {
+      "path": "./packages/echoui"
+    },
+    {
+      "path": "./packages/forgekit"
+    },
+    {
+      "path": "./packages/mirror"
+    }
+  ],
+  "files": [],
+  "include": []
+}
