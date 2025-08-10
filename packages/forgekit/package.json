@@ -1,19 +1,39 @@
 {
   "name": "@echoforge/forgekit",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
+  "description": "Core utilities and foundational tools for the EchoForge ecosystem",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc -b",
-    "dev": "tsc -w",
-    "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "test": "vitest"
+  "bin": {
+    "forgekit": "./dist/bin/forgekit.js"
   },
-  "dependencies": {},
+  "scripts": {
+    "build": "tsup src/index.ts --dts --sourcemap --format cjs,esm --out-dir dist",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "echoforge",
+    "utilities",
+    "tools"
+  ],
+  "dependencies": {
+    "commander": "^11.1.0",
+    "fs-extra": "^11.1.1",
+    "dotenv": "^16.3.1",
+    "zod": "^3.22.4"
+  },
   "devDependencies": {
-    "typescript": "^5.5.0",
-    "@types/node": "^20.0.0"
-  }
+    "@types/commander": "^2.12.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.0.0",
+    "memfs": "^4.34.0",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^3.2.4",
+    "tsup": "^8.0.2"
+  },
+  "private": true
 }

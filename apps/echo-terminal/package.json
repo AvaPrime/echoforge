@@ -1,22 +1,26 @@
 {
-  "name": "@echoforge/echo-terminal",
-  "version": "0.0.0",
+  "name": "echo-terminal",
+  "version": "0.1.0",
   "private": true,
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -b",
-    "dev": "tsc -w",
-    "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "test": "vitest"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start -p ${PORT:-3000}",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "clean": "rimraf .next build dist"
   },
   "dependencies": {
-    "@echoforge/echocore": "workspace:*",
     "@echoforge/codessa": "workspace:*",
+    "@echoforge/echocore": "workspace:*",
     "@echoforge/echoui": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.4.0",
+    "rimraf": "^5.0.0",
+    "vitest": "^3.2.4"
   }
 }

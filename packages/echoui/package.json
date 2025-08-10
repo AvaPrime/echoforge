@@ -5,16 +5,19 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc -b",
-    "dev": "tsc -w",
-    "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "test": "vitest"
+    "build": "tsup src/index.ts --dts --sourcemap --format cjs,esm --out-dir dist",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "@echoforge/codessa": "workspace:*"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
+    "tsup": "^8.0.2",
+    "vitest": "^3.2.4",
+    "rimraf": "^5.0.0"
   }
 }
