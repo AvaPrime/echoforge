@@ -1,0 +1,22 @@
+{{- if and .Values.monitoring.enabled .Values.monitoring.dashboardEnabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: echoforge-dashboard-servicemonitor
+  labels:
+    release: prometheus
+    {{- range $k, $v := .Values.monitoring.labels }}
+    {{ $k }}: {{ $v | quote }}
+    {{- end }}
+spec:
+  endpoints:
+    - port: http
+      path: /api/metrics
+      interval: {{ .Values.monitoring.interval | default "30s" }}
+  selector:
+    matchLabels:
+      app: dashboard
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+{{- end }}

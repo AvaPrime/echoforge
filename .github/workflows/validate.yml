@@ -1,0 +1,29 @@
+name: Validate
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '20', cache: 'pnpm' }
+      - run: corepack enable
+      - run: pnpm install --frozen-lockfile
+      - run: node scripts/check-exports.mjs
+      - run: node scripts/find-deep-imports.mjs
+      - run: pnpm typecheck --filter=...[origin/${{ github.base_ref || 'main' }}]
+      - run: pnpm lint      --filter=...[origin/${{ github.base_ref || 'main' }}]
+      - run: pnpm test      --filter=...[origin/${{ github.base_ref || 'main' }}]
+      - name: Upload coverage (if any)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            **/coverage/**
+          if-no-files-found: ignore
+      - run: pnpm build     --filter=...[origin/${{ github.base_ref || 'main' }}]
+      - name: E2E smoke (dashboard)
+        run: pnpm e2e
+      - name: Unused deps (advisory)
+        run: npx knip || true

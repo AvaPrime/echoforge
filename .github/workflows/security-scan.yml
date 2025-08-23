@@ -1,0 +1,35 @@
+name: Security Scans
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  trivy-fs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run Trivy FS scan
+        uses: aquasecurity/trivy-action@0.22.0
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '0'
+          scanners: 'vuln,secret,misconfig'
+          github-pat: ${{ secrets.GITHUB_TOKEN }}
+
+  helm-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.4
+      - name: Helm lint
+        run: helm lint charts/echoforge

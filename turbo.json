@@ -1,13 +1,40 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
-    "build": { "dependsOn": ["^build"], "outputs": ["dist/**"] },
-    "dev": { "cache": false },
-"lint": {
-      "outputs": [""],
-      "dependsOn": [],
-      "cache": true
+  "globalDependencies": [
+    "**/.env.*local",
+    "tsconfig.json",
+    "config/**",
+    "pnpm-lock.yaml"
+  ],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**", "build/**"]
     },
-    "test": {}
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  },
+  "remoteCache": {
+    "enabled": true
   }
 }

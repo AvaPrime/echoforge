@@ -1,0 +1,9 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "include": ["src/**/*", "tests/**/*", "vitest.config.ts"],
+  "compilerOptions": { 
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
+  }
+}

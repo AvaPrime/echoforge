@@ -142,3 +142,8 @@ out/
 
 # Local env files
 .env*.local
+
+# Google Cloud service account keys
+*service-account*.json
+*sa-key*.json
+codessa-core-*.json

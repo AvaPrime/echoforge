@@ -25,3 +25,10 @@ console.log(placeholder); // 'blueprint ready'
 ## Dependencies
 
 This package is standalone and doesn't depend on other EchoForge packages.
+
+## TODO
+
+- [ ] Implement template management
+- [ ] Add dynamic code generation
+- [ ] Write blueprint scaffolding logic
+- [ ] Add tests and documentation

@@ -1,0 +1,13 @@
+{
+  "extends": "../../config/tsconfig.base.json",
+  "include": ["src", "tests", "vitest.config.ts"],
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  }
+}

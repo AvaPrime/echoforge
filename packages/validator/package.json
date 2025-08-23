@@ -1,0 +1,45 @@
+{
+  "name": "@echoforge/validator",
+  "version": "1.0.0",
+  "description": "Blueprint Test Validator Engine for the EchoForge platform",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "echoforge",
+    "validator",
+    "blueprint",
+    "test",
+    "codalism"
+  ],
+  "author": "EchoForge Team",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "rimraf": "^4.4.1",
+    "vitest": "^3.2.4",
+    "tsup": "^8.0.2"
+  },
+  "peerDependencies": {
+    "@echoforge/echocore": "workspace:*",
+    "@echoforge/codalism": "workspace:*",
+    "@echoforge/blueprint": "workspace:*"
+  },
+  "private": false,
+  "sideEffects": false
+}

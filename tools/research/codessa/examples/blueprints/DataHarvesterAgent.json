@@ -1,0 +1,108 @@
+{
+  "id": "data-harvester-001",
+  "name": "DataHarvesterAgent",
+  "intent": "Collect and process data from specified web sources while respecting rate limits and data privacy requirements",
+  "dominantSequence": [
+    "initializeAgent",
+    "validateSources",
+    "fetchURL",
+    "parseContent",
+    "transformData",
+    "validateOutput",
+    "storeResults"
+  ],
+  "suggestedAgents": ["DataValidator", "PrivacyFilter"],
+  "refinementAnnotations": {
+    "fetchURL": {
+      "description": "Fetches content from a specified URL with proper error handling",
+      "preconditions": [
+        "URL must be valid and accessible",
+        "Rate limiting must be respected"
+      ],
+      "postconditions": [
+        "Returns non-null response containing HTML content",
+        "Handles 4xx and 5xx errors gracefully"
+      ],
+      "examples": [
+        {
+          "input": { "url": "https://example.com" },
+          "output": { "status": 200, "content": "<html>...</html>" }
+        }
+      ]
+    },
+    "parseContent": {
+      "description": "Extracts structured data from fetched content",
+      "preconditions": ["Input must contain valid HTML or JSON"],
+      "postconditions": [
+        "Returns structured data object",
+        "Handles malformed content gracefully"
+      ],
+      "examples": [
+        {
+          "input": {
+            "content": "<html><body><div class='data'>42</div></body></html>"
+          },
+          "output": { "data": "42" }
+        }
+      ]
+    },
+    "transformData": {
+      "description": "Transforms extracted data into the required format",
+      "preconditions": ["Input must be a valid data object"],
+      "postconditions": [
+        "Returns transformed data in the specified format",
+        "Applies data cleaning rules"
+      ],
+      "examples": [
+        {
+          "input": { "data": { "raw": "42" } },
+          "output": { "processed": { "formatted": "42" } }
+        }
+      ]
+    },
+    "storeResults": {
+      "description": "Stores processed data in the specified destination",
+      "preconditions": [
+        "Input must be valid processed data",
+        "Storage destination must be accessible"
+      ],
+      "postconditions": [
+        "Returns success status with storage reference",
+        "Handles storage failures gracefully"
+      ],
+      "examples": [
+        {
+          "input": {
+            "data": { "processed": { "formatted": "42" } },
+            "destination": "memory"
+          },
+          "output": { "success": true, "reference": "data-42" }
+        }
+      ]
+    }
+  },
+  "capabilities": [
+    {
+      "name": "webScraping",
+      "description": "Ability to extract data from web pages",
+      "constraints": ["Respects robots.txt", "Implements rate limiting"]
+    },
+    {
+      "name": "dataTransformation",
+      "description": "Ability to clean and transform data into required formats",
+      "constraints": ["Preserves data integrity", "Handles edge cases"]
+    },
+    {
+      "name": "errorHandling",
+      "description": "Robust error handling for network and parsing issues",
+      "constraints": ["Graceful degradation", "Detailed error reporting"]
+    }
+  ],
+  "metadata": {
+    "version": "1.0.0",
+    "author": "Codessa Team",
+    "tags": ["data", "web", "harvesting", "automation"],
+    "createdAt": "2023-05-15T10:30:00Z",
+    "updatedAt": "2023-05-15T10:30:00Z"
+  }
+}

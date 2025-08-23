@@ -1,0 +1,52 @@
+name: Codebase Assessment
+
+on:
+  schedule:
+    - cron: '0 2 * * 1' # Weekly Monday 2 AM
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  assess-codebase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Full history for trend analysis
+
+      - name: Run Code Analysis
+        run: |
+          # Static analysis
+          sonar-scanner
+          eslint . --format json --output-file eslint-report.json
+
+          # Complexity analysis
+          lizard --xml > complexity-report.xml
+
+          # Security scan
+          semgrep --config=auto --json --output=security-report.json
+
+          # Dependency analysis
+          npm audit --json > npm-audit.json
+
+      - name: Generate Assessment Report
+        uses: ./.github/actions/assessment-agent
+        with:
+          analysis-results: |
+            eslint-report.json
+            complexity-report.xml
+            security-report.json
+            npm-audit.json
+
+      - name: Update Living Documentation
+        run: |
+          # Trigger MCP agent to update living docs
+          node scripts/update-living-docs.js
+
+      - name: Create Assessment PR
+        if: github.event_name == 'schedule'
+        run: |
+          # Create PR with updated assessments
+          gh pr create --title "Weekly Codebase Assessment" \
+                      --body-file assessment-summary.md

@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f8f9fa" />
+  
+  <!-- Title -->
+  <text x="400" y="40" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold">Soulframe & Codalogue Architecture</text>
+  
+  <!-- Soulframe Container -->
+  <rect x="100" y="80" width="280" height="400" rx="10" ry="10" fill="#e6f7ff" stroke="#1890ff" stroke-width="2" />
+  <text x="240" y="110" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">Soulframe</text>
+  
+  <!-- Soulframe Modules -->
+  <rect x="120" y="130" width="240" height="60" rx="5" ry="5" fill="#91d5ff" stroke="#1890ff" stroke-width="1" />
+  <text x="240" y="165" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Identity</text>
+  <text x="240" y="185" font-family="Arial" font-size="12" text-anchor="middle">Name, Purpose, Lineage, Creator</text>
+  
+  <rect x="120" y="200" width="240" height="60" rx="5" ry="5" fill="#91d5ff" stroke="#1890ff" stroke-width="1" />
+  <text x="240" y="235" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Essence</text>
+  <text x="240" y="255" font-family="Arial" font-size="12" text-anchor="middle">Values, Emotional Resonance, Principles</text>
+  
+  <rect x="120" y="270" width="240" height="60" rx="5" ry="5" fill="#91d5ff" stroke="#1890ff" stroke-width="1" />
+  <text x="240" y="305" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Memory</text>
+  <text x="240" y="325" font-family="Arial" font-size="12" text-anchor="middle">Reflexive, Codalogue Trace</text>
+  
+  <rect x="120" y="340" width="110" height="60" rx="5" ry="5" fill="#91d5ff" stroke="#1890ff" stroke-width="1" />
+  <text x="175" y="375" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Voice</text>
+  <text x="175" y="395" font-family="Arial" font-size="12" text-anchor="middle">Tone, Language</text>
+  
+  <rect x="250" y="340" width="110" height="60" rx="5" ry="5" fill="#91d5ff" stroke="#1890ff" stroke-width="1" />
+  <text x="305" y="375" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Growth</text>
+  <text x="305" y="395" font-family="Arial" font-size="12" text-anchor="middle">Pattern, Hooks</text>
+  
+  <rect x="120" y="410" width="240" height="60" rx="5" ry="5" fill="#91d5ff" stroke="#1890ff" stroke-width="1" />
+  <text x="240" y="445" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Relationships</text>
+  <text x="240" y="465" font-family="Arial" font-size="12" text-anchor="middle">Connections, Types</text>
+  
+  <!-- Codalogue Container -->
+  <rect x="420" y="80" width="280" height="400" rx="10" ry="10" fill="#f6ffed" stroke="#52c41a" stroke-width="2" />
+  <text x="560" y="110" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">Codalogue</text>
+  
+  <!-- Codalogue Components -->
+  <rect x="440" y="130" width="240" height="120" rx="5" ry="5" fill="#b7eb8f" stroke="#52c41a" stroke-width="1" />
+  <text x="560" y="155" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Entries</text>
+  <text x="560" y="175" font-family="Arial" font-size="12" text-anchor="middle">Types: Intention, Question, Answer,</text>
+  <text x="560" y="195" font-family="Arial" font-size="12" text-anchor="middle">Suggestion, Decision, Reflection, Evolution</text>
+  <text x="560" y="215" font-family="Arial" font-size="12" text-anchor="middle">Sources: Human, System, Agent, External</text>
+  <text x="560" y="235" font-family="Arial" font-size="12" text-anchor="middle">Metadata: Tags, Timestamps, Relations</text>
+  
+  <rect x="440" y="260" width="240" height="100" rx="5" ry="5" fill="#b7eb8f" stroke="#52c41a" stroke-width="1" />
+  <text x="560" y="285" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Threads</text>
+  <text x="560" y="305" font-family="Arial" font-size="12" text-anchor="middle">Organized conversations</text>
+  <text x="560" y="325" font-family="Arial" font-size="12" text-anchor="middle">Status: Active, Resolved, Archived</text>
+  <text x="560" y="345" font-family="Arial" font-size="12" text-anchor="middle">Tags, Description</text>
+  
+  <rect x="440" y="370" width="240" height="100" rx="5" ry="5" fill="#b7eb8f" stroke="#52c41a" stroke-width="1" />
+  <text x="560" y="395" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Statistics</text>
+  <text x="560" y="415" font-family="Arial" font-size="12" text-anchor="middle">Entry Count, Thread Count</text>
+  <text x="560" y="435" font-family="Arial" font-size="12" text-anchor="middle">Active/Resolved Threads</text>
+  <text x="560" y="455" font-family="Arial" font-size="12" text-anchor="middle">Top Tags, Evolution Metrics</text>
+  
+  <!-- Integration Arrows -->
+  <!-- Memory to Codalogue -->
+  <path d="M 360 300 L 420 300" stroke="#722ed1" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="390" y="290" font-family="Arial" font-size="12" text-anchor="middle" fill="#722ed1">Stores</text>
+  
+  <!-- Codalogue to Memory -->
+  <path d="M 420 320 L 360 320" stroke="#722ed1" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="390" y="340" font-family="Arial" font-size="12" text-anchor="middle" fill="#722ed1">Informs</text>
+  
+  <!-- Growth to Codalogue -->
+  <path d="M 360 370 C 390 370 390 350 420 350" stroke="#722ed1" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="390" y="360" font-family="Arial" font-size="12" text-anchor="middle" fill="#722ed1">Evolves</text>
+  
+  <!-- Codalogue to Growth -->
+  <path d="M 420 380 C 390 380 390 400 360 400" stroke="#722ed1" stroke-width="2" fill="none" marker-end="url(#arrowhead)" />
+  <text x="390" y="410" font-family="Arial" font-size="12" text-anchor="middle" fill="#722ed1">Triggers</text>
+  
+  <!-- Arrowhead Marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#722ed1" />
+    </marker>
+  </defs>
+  
+  <!-- Evolution Cycle -->
+  <ellipse cx="400" cy="520" rx="200" ry="40" fill="#fff0f6" stroke="#eb2f96" stroke-width="2" />
+  <text x="400" y="525" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#eb2f96">Dialogue-Driven Evolution Cycle</text>
+  
+  <!-- Evolution Arrows -->
+  <path d="M 240 490 C 240 510 300 520 360 520" stroke="#eb2f96" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" />
+  <path d="M 440 520 C 500 520 560 510 560 490" stroke="#eb2f96" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" />
+  <path d="M 560 470 C 560 450 500 440 440 440" stroke="#eb2f96" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" />
+  <path d="M 360 440 C 300 440 240 450 240 470" stroke="#eb2f96" stroke-width="2" fill="none" marker-end="url(#arrowhead2)" />
+  
+  <!-- Evolution Labels -->
+  <text x="240" y="510" font-family="Arial" font-size="12" text-anchor="middle" fill="#eb2f96">Reflect</text>
+  <text x="560" y="510" font-family="Arial" font-size="12" text-anchor="middle" fill="#eb2f96">Dialogue</text>
+  <text x="560" y="450" font-family="Arial" font-size="12" text-anchor="middle" fill="#eb2f96">Record</text>
+  <text x="240" y="450" font-family="Arial" font-size="12" text-anchor="middle" fill="#eb2f96">Evolve</text>
+  
+  <!-- Arrowhead Marker for Evolution -->
+  <defs>
+    <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#eb2f96" />
+    </marker>
+  </defs>
+</svg>

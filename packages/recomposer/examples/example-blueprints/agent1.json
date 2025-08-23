@@ -1,0 +1,57 @@
+{
+  "id": "blueprint-123456",
+  "name": "TextAnalyzer",
+  "version": "1.0.0",
+  "intent": {
+    "description": "An agent that analyzes text for sentiment, entities, and key phrases",
+    "dominantSequence": [
+      "receive_text",
+      "analyze_sentiment",
+      "extract_entities",
+      "identify_key_phrases",
+      "generate_summary"
+    ]
+  },
+  "capabilities": {
+    "analyze_sentiment": {
+      "description": "Analyzes the sentiment of text as positive, negative, or neutral",
+      "function": "function analyzeSentiment(text) {\n  // Implementation of sentiment analysis\n  const sentimentScore = calculateSentimentScore(text);\n  return {\n    score: sentimentScore,\n    label: sentimentScore > 0.5 ? 'positive' : sentimentScore < -0.5 ? 'negative' : 'neutral'\n  };\n}\n\nfunction calculateSentimentScore(text) {\n  // Simple sentiment analysis implementation\n  const positiveWords = ['good', 'great', 'excellent', 'happy', 'positive'];\n  const negativeWords = ['bad', 'terrible', 'awful', 'sad', 'negative'];\n  \n  const words = text.toLowerCase().split(/\\s+/);\n  let score = 0;\n  \n  for (const word of words) {\n    if (positiveWords.includes(word)) score += 0.2;\n    if (negativeWords.includes(word)) score -= 0.2;\n  }\n  \n  return Math.max(-1, Math.min(1, score));\n}"
+    },
+    "extract_entities": {
+      "description": "Extracts named entities from text such as people, places, and organizations",
+      "function": "function extractEntities(text) {\n  // Implementation of entity extraction\n  const entities = {\n    people: [],\n    places: [],\n    organizations: [],\n    dates: []\n  };\n  \n  // Simple entity extraction implementation\n  const words = text.split(/\\s+/);\n  const capitalizedWords = words.filter(word => /^[A-Z][a-z]+$/.test(word));\n  \n  for (const word of capitalizedWords) {\n    // This is a simplified implementation\n    // In a real system, we would use NLP techniques\n    if (isPersonName(word)) {\n      entities.people.push(word);\n    } else if (isPlaceName(word)) {\n      entities.places.push(word);\n    } else if (isOrganizationName(word)) {\n      entities.organizations.push(word);\n    }\n  }\n  \n  // Extract dates using regex\n  const dateRegex = /\\b\\d{1,2}[\\/\\-]\\d{1,2}[\\/\\-]\\d{2,4}\\b/g;\n  const dates = text.match(dateRegex) || [];\n  entities.dates = dates;\n  \n  return entities;\n}\n\nfunction isPersonName(word) {\n  // Simplified implementation\n  const commonNames = ['John', 'Jane', 'David', 'Sarah', 'Michael'];\n  return commonNames.includes(word);\n}\n\nfunction isPlaceName(word) {\n  // Simplified implementation\n  const commonPlaces = ['London', 'Paris', 'Tokyo', 'Berlin', 'Rome'];\n  return commonPlaces.includes(word);\n}\n\nfunction isOrganizationName(word) {\n  // Simplified implementation\n  const commonOrgs = ['Google', 'Microsoft', 'Apple', 'Amazon', 'Facebook'];\n  return commonOrgs.includes(word);\n}"
+    },
+    "identify_key_phrases": {
+      "description": "Identifies important phrases and keywords in the text",
+      "function": "function identifyKeyPhrases(text) {\n  // Implementation of key phrase extraction\n  const phrases = [];\n  const sentences = text.split(/[.!?]+/);\n  \n  for (const sentence of sentences) {\n    if (sentence.trim() === '') continue;\n    \n    // Calculate the importance of the sentence\n    const importance = calculateSentenceImportance(sentence);\n    \n    if (importance > 0.5) {\n      phrases.push({\n        text: sentence.trim(),\n        importance: importance\n      });\n    }\n  }\n  \n  return phrases.sort((a, b) => b.importance - a.importance);\n}\n\nfunction calculateSentenceImportance(sentence) {\n  // Simplified implementation\n  // In a real system, we would use TF-IDF or other NLP techniques\n  const importantWords = ['critical', 'important', 'significant', 'key', 'main', 'essential'];\n  const words = sentence.toLowerCase().split(/\\s+/);\n  \n  let score = 0;\n  for (const word of words) {\n    if (importantWords.includes(word)) score += 0.2;\n  }\n  \n  // Longer sentences might be more informative (up to a point)\n  const lengthFactor = Math.min(1, words.length / 20);\n  score += lengthFactor * 0.3;\n  \n  return Math.min(1, score);\n}"
+    },
+    "generate_summary": {
+      "description": "Generates a concise summary of the analyzed text",
+      "function": "function generateSummary(text, sentiment, entities, keyPhrases) {\n  // Implementation of summary generation\n  let summary = '';\n  \n  // Add sentiment information\n  summary += `The text has a ${sentiment.label} tone. `;\n  \n  // Add entity information\n  if (entities.people.length > 0) {\n    summary += `It mentions the following people: ${entities.people.join(', ')}. `;\n  }\n  \n  if (entities.places.length > 0) {\n    summary += `It references these places: ${entities.places.join(', ')}. `;\n  }\n  \n  if (entities.organizations.length > 0) {\n    summary += `Organizations mentioned include: ${entities.organizations.join(', ')}. `;\n  }\n  \n  // Add key phrases\n  if (keyPhrases.length > 0) {\n    summary += `Key points: ${keyPhrases.slice(0, 3).map(p => p.text).join('; ')}`;\n  }\n  \n  return summary;\n}"
+    },
+    "receive_text": {
+      "description": "Receives and preprocesses text for analysis",
+      "function": "function receiveText(text) {\n  // Preprocess the text\n  return preprocessText(text);\n}\n\nfunction preprocessText(text) {\n  // Remove extra whitespace\n  text = text.replace(/\\s+/g, ' ').trim();\n  \n  // Remove special characters except punctuation needed for sentence splitting\n  text = text.replace(/[^a-zA-Z0-9\\s.,!?;:'\"]/g, '');\n  \n  return text;\n}"
+    }
+  },
+  "suggestedAgents": [
+    "text-analyzer",
+    "sentiment-analyzer",
+    "entity-extractor"
+  ],
+  "refinementAnnotations": {
+    "analyze_sentiment": {
+      "improvement": "Could be enhanced with a more sophisticated sentiment lexicon",
+      "priority": "medium"
+    },
+    "extract_entities": {
+      "improvement": "Should use a proper NLP library for better accuracy",
+      "priority": "high"
+    }
+  },
+  "metadata": {
+    "createdAt": "2023-10-15T12:00:00Z",
+    "author": "EchoForge Team",
+    "tags": ["text-analysis", "nlp", "sentiment"]
+  }
+}

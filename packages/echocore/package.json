@@ -1,20 +1,43 @@
 {
   "name": "@echoforge/echocore",
-  "version": "0.0.0",
-  "private": true,
-  "main": "dist/index.js",
+  "version": "0.1.0",
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "bin": {
+    "echoforge-agent": "dist/cli/run-agent.js"
+  },
   "scripts": {
-    "build": "tsc -b",
-    "dev": "tsc -w",
+    "build": "tsup --config ../../config/tsup.lib.ts",
+    "postbuild": "node scripts/build-cli.js",
+    "dev": "tsc -p . --watch",
     "clean": "rimraf dist",
-    "lint": "eslint 'src/**/*.{ts,tsx}'",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint .",
+    "start:agent": "node scripts/run-agent.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@echoforge/forgekit": "workspace:*"
+    "@echoforge/forgekit": "workspace:*",
+    "@org/config": "workspace:*",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "typescript": "^5.5.0"
-  }
+    "typescript": "^5.4.0",
+    "rimraf": "^5.0.0",
+    "vitest": "^3.2.4",
+    "@types/uuid": "^9.0.8",
+    "tsup": "^8.0.2"
+  },
+  "private": true
 }

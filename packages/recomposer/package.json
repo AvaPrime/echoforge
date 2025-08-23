@@ -1,0 +1,41 @@
+{
+  "name": "@echoforge/recomposer",
+  "version": "0.1.0",
+  "description": "Agent Recomposer Module for EchoForge - enables blueprint fusion, capability extraction, and agent evolution",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --sourcemap --format cjs,esm --out-dir dist",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "clean": "rimraf dist"
+  },
+  "keywords": [
+    "echoforge",
+    "agent",
+    "blueprint",
+    "composition",
+    "recomposition",
+    "capability",
+    "extraction"
+  ],
+  "author": "EchoForge Team",
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.4",
+    "rimraf": "^4.4.1",
+    "vitest": "^3.2.4",
+    "tsup": "^8.0.2"
+  },
+  "peerDependencies": {
+    "@echoforge/echocore": "workspace:*",
+    "@echoforge/codalism": "workspace:*",
+    "@echoforge/blueprint": "workspace:*",
+    "@echoforge/validator": "workspace:*"
+  },
+  "private": true
+}

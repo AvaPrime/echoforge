@@ -1,0 +1,55 @@
+{
+  "name": "@echoforge/codebase-assessment",
+  "version": "1.0.0",
+  "description": "Codebase Assessment & Living Documentation System for EchoForge",
+  "main": "index.js",
+  "scripts": {
+    "setup": "node setup.js",
+    "assess": "node run-assessment.js",
+    "generate-docs": "node run-assessment.js --docs-only",
+    "analyze": "node run-assessment.js --analysis-only",
+    "view-report": "serve -s output/living-docs",
+    "test": "jest"
+  },
+  "keywords": [
+    "codebase",
+    "assessment",
+    "documentation",
+    "analysis",
+    "echoforge",
+    "consciousness"
+  ],
+  "author": "EchoForge Team",
+  "license": "MIT",
+  "dependencies": {
+    "@echoforge/forgekit": "^1.0.0",
+    "arkit": "^1.6.4",
+    "chalk": "^4.1.2",
+    "cloc": "^2.8.0",
+    "commander": "^9.4.1",
+    "eslint": "^8.26.0",
+    "fs-extra": "^10.1.0",
+    "jscpd": "^3.5.3",
+    "lodash": "^4.17.21",
+    "madge": "^5.0.1",
+    "markdown-it": "^13.0.1",
+    "ora": "^5.4.1",
+    "semgrep": "^1.12.0",
+    "sonarqube-scanner": "^2.9.1"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2",
+    "serve": "^14.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/echoforge/codebase-assessment.git"
+  },
+  "bugs": {
+    "url": "https://github.com/echoforge/codebase-assessment/issues"
+  },
+  "homepage": "https://github.com/echoforge/codebase-assessment#readme"
+}

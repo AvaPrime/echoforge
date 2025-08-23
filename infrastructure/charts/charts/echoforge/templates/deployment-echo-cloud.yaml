@@ -1,0 +1,67 @@
+{{- if .Values.echoCloud.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-cloud
+  labels:
+    app: echo-cloud
+spec:
+  replicas: {{ .Values.echoCloud.replicaCount }}
+  selector:
+    matchLabels:
+      app: echo-cloud
+  template:
+    metadata:
+      labels:
+        app: echo-cloud
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+      containers:
+        - name: echo-cloud
+          image: {{ printf "%s/%s:%s" .Values.global.registry .Values.echoCloud.image .Values.global.tag | quote }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            {{- range $k, $v := .Values.echoCloud.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo-cloud
+  labels:
+    app: echo-cloud
+spec:
+  type: ClusterIP
+  selector:
+    app: echo-cloud
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+{{- end }}

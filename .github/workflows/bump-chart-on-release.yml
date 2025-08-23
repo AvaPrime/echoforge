@@ -1,0 +1,40 @@
+name: Bump Helm Chart on App Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: v
+        run: |
+          TAG=${GITHUB_REF_NAME}
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Install yq
+        uses: mikefarah/yq@v4.44.3
+
+      - name: Update Chart appVersion
+        run: |
+          yq -i '.appVersion = "${{ steps.v.outputs.tag }}"' charts/echoforge/Chart.yaml
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: 'chore(chart): bump appVersion to ${{ steps.v.outputs.tag }}'
+          title: 'chore(chart): bump appVersion to ${{ steps.v.outputs.tag }}'
+          body: 'Auto-bumped appVersion to match release tag ${{ steps.v.outputs.tag }}.'
+          branch: chore/bump-chart-${{ steps.v.outputs.tag }}

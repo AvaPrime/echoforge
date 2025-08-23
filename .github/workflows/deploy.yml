@@ -1,0 +1,178 @@
+name: Deploy EchoCloud
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/echo-cloud/**'
+      - 'packages/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  GCP_PROJECT_ID: 'codessa-core'
+  GCP_REGION: 'us-central1'
+  SERVICE_NAME: 'echocloud'
+  NODE_VERSION: '20'
+
+jobs:
+  deploy-staging:
+    name: 'Deploy to Staging'
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && (github.event.inputs.environment == 'staging' || github.event.inputs.environment == '')
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker to use gcloud as a credential helper
+        run: gcloud auth configure-docker
+
+      - name: Build and push Docker image
+        run: |
+          cd apps/echo-cloud
+          docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
+          docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }}-staging \
+            --image=gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --platform=managed \
+            --region=${{ env.GCP_REGION }} \
+            --allow-unauthenticated \
+            --service-account=codessa-core-agent@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
+            --set-secrets=GOOGLE_APPLICATION_CREDENTIALS=codessa-service-account-key:latest \
+            --set-env-vars=NODE_ENV=staging
+
+      - name: Get service URL
+        id: get-url
+        run: |
+          SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }}-staging \
+            --platform=managed \
+            --region=${{ env.GCP_REGION }} \
+            --format="value(status.url)")
+          echo "SERVICE_URL=$SERVICE_URL" >> $GITHUB_OUTPUT
+
+      - name: Test deployment
+        run: |
+          sleep 30
+          curl -f ${{ steps.get-url.outputs.SERVICE_URL }}/health
+          curl -f ${{ steps.get-url.outputs.SERVICE_URL }}/api/status
+
+      - name: Report deployment
+        run: |
+          echo "✅ Deployment successful!"
+          echo "🌐 Service URL: ${{ steps.get-url.outputs.SERVICE_URL }}"
+          echo "📊 Health check: ${{ steps.get-url.outputs.SERVICE_URL }}/health"
+          echo "🔧 Debug dashboard: ${{ steps.get-url.outputs.SERVICE_URL }}/api/debug"
+
+  deploy-production:
+    name: 'Deploy to Production'
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'production'
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.0.0
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Run tests
+        run: pnpm test:run
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker to use gcloud as a credential helper
+        run: gcloud auth configure-docker
+
+      - name: Build and push Docker image
+        run: |
+          cd apps/echo-cloud
+          docker build -t gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
+          docker push gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image=gcr.io/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --platform=managed \
+            --region=${{ env.GCP_REGION }} \
+            --allow-unauthenticated \
+            --service-account=codessa-core-agent@${{ env.GCP_PROJECT_ID }}.iam.gserviceaccount.com \
+            --set-secrets=GOOGLE_APPLICATION_CREDENTIALS=codessa-service-account-key:latest \
+            --set-env-vars=NODE_ENV=production,ENABLE_CODESSA_INTEGRATION=true
+
+      - name: Get service URL
+        id: get-url
+        run: |
+          SERVICE_URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
+            --platform=managed \
+            --region=${{ env.GCP_REGION }} \
+            --format="value(status.url)")
+          echo "SERVICE_URL=$SERVICE_URL" >> $GITHUB_OUTPUT
+
+      - name: Test production deployment
+        run: |
+          sleep 30
+          curl -f ${{ steps.get-url.outputs.SERVICE_URL }}/health
+          curl -f ${{ steps.get-url.outputs.SERVICE_URL }}/api/status
+
+      - name: Report production deployment
+        run: |
+          echo "🚀 Production deployment successful!"
+          echo "🌐 Service URL: ${{ steps.get-url.outputs.SERVICE_URL }}"
+          echo "📊 Health check: ${{ steps.get-url.outputs.SERVICE_URL }}/health"

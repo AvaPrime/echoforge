@@ -1,0 +1,23 @@
+name: 'Assessment Agent'
+description: 'Run the EchoForge Codebase Assessment Agent to analyze code and generate reports'
+
+inputs:
+  analysis-results:
+    description: 'Paths to analysis result files'
+    required: true
+  output-dir:
+    description: 'Directory to output assessment results'
+    required: false
+    default: 'output/analysis'
+  config-path:
+    description: 'Path to custom configuration file'
+    required: false
+    default: 'config.js'
+
+runs:
+  using: 'node16'
+  main: 'index.js'
+
+branding:
+  icon: 'code'
+  color: 'blue'

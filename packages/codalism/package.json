@@ -1,0 +1,49 @@
+{
+  "name": "@echoforge/codalism",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "codalism": "dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --dts --sourcemap --format cjs,esm --out-dir dist",
+    "dev": "tsc -p . --watch",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint .",
+    "manifesto": "ts-node src/cli/manifesto-renderer.ts",
+    "manifesto:web": "ts-node src/web/manifesto-viewer.ts",
+    "cli": "ts-node src/cli/index.ts",
+    "cli:build": "tsc -p . && node scripts/make-cli-executable.js",
+    "cli:install": "node scripts/install-cli.js",
+    "soulframe": "node scripts/run-soulframe-example.js",
+    "soulframe:dev": "ts-node src/examples/soulframe-example.ts",
+    "soulframe:visualize": "ts-node src/cli/soulframe-visualizer.ts",
+    "soulframe:web": "ts-node src/web/soulframe-web-demo.ts"
+  },
+  "dependencies": {
+    "@echoforge/echocore": "workspace:*",
+    "uuid": "^9.0.1",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "figlet": "^1.7.0",
+    "gradient-string": "^2.0.2",
+    "marked": "^11.1.0",
+    "nanospinner": "^1.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "rimraf": "^5.0.0",
+    "vitest": "^3.2.4",
+    "@types/uuid": "^9.0.8",
+    "@types/figlet": "^1.5.8",
+    "@types/gradient-string": "^1.1.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.0.2"
+  },
+  "private": true
+}

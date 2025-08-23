@@ -1,0 +1,41 @@
+global:
+  registry: ghcr.io/echoforge
+  tag: latest
+
+monitoring:
+  enabled: false
+  interval: 30s
+  labels: {}
+  dashboardEnabled: false
+
+echoCloud:
+  enabled: true
+  image: echo-cloud
+  replicaCount: 2
+  env:
+    NODE_ENV: production
+    PORT: '3000'
+
+dashboard:
+  enabled: true
+  image: dashboard
+  replicaCount: 2
+  env:
+    NODE_ENV: production
+    PORT: '3000'
+    NEXT_PUBLIC_API_BASE: http://echo-cloud
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations: {}
+  tls:
+    enabled: true
+    secretName: echoforge-tls
+  hosts:
+    dashboard: dashboard.local
+    api: api.local
+  canary:
+    enabled: false
+    weight: 10
+    header: 'X-Canary' # if using header-based canary

@@ -1,0 +1,8 @@
+/apps/dashboard/      @team-frontend
+/apps/echo-cloud/     @team-platform
+/apps/echo-terminal/  @team-platform
+/packages/echocore/   @team-core
+/packages/echoui/     @team-frontend
+/packages/forgekit/   @team-devex
+/packages/config/     @team-platform
+/packages/logger/     @team-platform

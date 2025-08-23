@@ -5,9 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p ${PORT:-3000}",
+    "dev": "echo 'echo-terminal is a placeholder library' && exit 0",
+    "build": "tsup --config ../../config/tsup.lib.ts",
+    "start": "node dist/index.js || true",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint .",
@@ -15,12 +15,15 @@
   },
   "dependencies": {
     "@echoforge/codessa": "workspace:*",
+    "@org/config": "workspace:*",
     "@echoforge/echocore": "workspace:*",
-    "@echoforge/echoui": "workspace:*"
+    "@echoforge/echoui": "workspace:*",
+    "@org/logger": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
     "rimraf": "^5.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "tsup": "^8.0.0"
   }
 }

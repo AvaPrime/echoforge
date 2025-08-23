@@ -1,2 +1,2 @@
-export declare const placeholder = "echo-terminal ready";
+export declare const placeholder = 'echo-terminal ready';
 //# sourceMappingURL=index.d.ts.map

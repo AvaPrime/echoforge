@@ -1,0 +1,21 @@
+{
+  "name": "processData",
+  "type": "function",
+  "intent": "Process and transform data",
+  "suggestedAgent": "DataProcessor",
+  "metadata": {
+    "confidenceScore": 0.85,
+    "language": "javascript"
+  },
+  "primitives": ["PROCESS", "TRANSFORM", "VALIDATE"],
+  "nodes": [
+    {
+      "name": "processData",
+      "type": "function",
+      "raw": "function processData(data) { /* ... */ }",
+      "intent": "Process and transform data",
+      "confidence": 0.85,
+      "primitives": ["PROCESS", "TRANSFORM", "VALIDATE"]
+    }
+  ]
+}

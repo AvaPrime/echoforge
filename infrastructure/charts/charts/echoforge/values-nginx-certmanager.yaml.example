@@ -1,0 +1,33 @@
+# NGINX Ingress with cert-manager (Let's Encrypt)
+global:
+  registry: ghcr.io/your-org
+  tag: v0.1.0
+
+monitoring:
+  enabled: true
+  interval: 30s
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  tls:
+    enabled: true
+    secretName: echoforge-tls
+  hosts:
+    dashboard: dashboard.example.com
+    api: api.example.com
+
+echoCloud:
+  replicaCount: 3
+  env:
+    NODE_ENV: production
+    PORT: "3000"
+
+dashboard:
+  replicaCount: 3
+  env:
+    NODE_ENV: production
+    PORT: "3000"
+    NEXT_PUBLIC_API_BASE: https://api.example.com

@@ -28,3 +28,11 @@ console.log(placeholder); // 'codessa ready'
 - `@echoforge/echocore` - Core functionality and business logic
 - `@echoforge/mirror` - Real-time synchronization utilities
 - `@echoforge/forgekit` - Core utilities and foundational tools
+
+## TODO
+
+- [ ] Implement code analysis engine
+- [ ] Integrate with LLMs for suggestions
+- [ ] Add code pattern recognition
+- [ ] Write tests for all features
+- [ ] Document API and usage examples

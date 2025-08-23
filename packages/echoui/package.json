@@ -1,23 +1,37 @@
 {
   "name": "@echoforge/echoui",
   "version": "0.0.0",
-  "private": true,
-  "main": "dist/index.js",
+  "private": false,
+  "sideEffects": false,
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
   "scripts": {
-    "build": "tsup src/index.ts --dts --sourcemap --format cjs,esm --out-dir dist",
+    "build": "tsup --config ../../config/tsup.lib.ts",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "eslint .",
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "@echoforge/codessa": "workspace:*"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.5.0",
+    "@testing-library/react": "^16.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "jsdom": "^22.0.0",
+    "rimraf": "^5.0.0",
     "tsup": "^8.0.2",
-    "vitest": "^3.2.4",
-    "rimraf": "^5.0.0"
+    "typescript": "^5.5.0",
+    "vitest": "^3.2.4"
   }
 }

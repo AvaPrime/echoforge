@@ -1,0 +1,27 @@
+{
+  "name": "@echoforge/env-check",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "dist/index.mjs",
+  "bin": { "ef-env": "dist/cli.mjs" },
+  "scripts": {
+    "build": "tsup src/index.ts src/cli.ts --config ../../tsup.lib.ts --no-dts",
+    "dev": "tsup --config ../../tsup.lib.ts --watch",
+    "lint": "eslint \"src/**/*.ts\"",
+    "check": "node dist/cli.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "open": "^10.2.0",
+    "yaml": "^2.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.0",
+    "vitest": "^3.2.4"
+  }
+}

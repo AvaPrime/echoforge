@@ -1,0 +1,12 @@
+{
+  "directive": "Initialize the Codessa Directive Engine. Establish a persistent task memory, spawn a primary Executor Agent, and await the first directive from the user. Log all task state and results, and respond with the current system status.",
+  "context": {
+    "phase": "awakening",
+    "priority": "critical",
+    "source": "phoenix_initialization",
+    "timestamp": "2025-07-23T03:57:00Z",
+    "system": "EchoForge-Codessa Integration",
+    "goal": "Activate recursive intelligence system"
+  },
+  "priority": "critical"
+}

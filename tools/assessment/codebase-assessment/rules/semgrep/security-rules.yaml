@@ -1,0 +1,150 @@
+# EchoForge Security Rules for Semgrep
+# These rules help identify security vulnerabilities in the codebase
+
+rules:
+  - id: echoforge-insecure-memory-access
+    pattern: |
+      $memory.accessUnsafe($...)
+    message: |
+      Insecure memory access detected. Use secure memory access methods instead.
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      impact: high
+      confidence: medium
+      references:
+        - https://echoforge.docs/security/memory-access
+
+  - id: echoforge-unvalidated-consciousness-input
+    pattern: |
+      $consciousness.processInput($input, ...)
+    pattern-not: |
+      $consciousness.processInput($input.validate(), ...)
+    message: |
+      Unvalidated input passed to consciousness processor. Always validate consciousness inputs.
+    languages: [javascript, typescript]
+    severity: WARNING
+    metadata:
+      category: security
+      impact: high
+      confidence: medium
+      references:
+        - https://echoforge.docs/security/input-validation
+
+  - id: echoforge-memory-leak
+    patterns:
+      - pattern: |
+          $memory = new MemoryLayer(...)
+      - pattern-not-inside: |
+          try {
+            $memory = new MemoryLayer(...)
+            ...
+          } finally {
+            $memory.release()
+          }
+      - pattern-not-inside: |
+          $memory = new MemoryLayer(...)
+          ...
+          $memory.release()
+    message: |
+      Potential memory leak detected. Memory layers should be properly released.
+    languages: [javascript, typescript]
+    severity: WARNING
+    metadata:
+      category: security
+      impact: medium
+      confidence: medium
+      references:
+        - https://echoforge.docs/memory/management
+
+  - id: echoforge-insecure-intention-execution
+    pattern: |
+      $intention.executeUnsafe($...)
+    message: |
+      Insecure intention execution detected. Use secure execution methods instead.
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      impact: high
+      confidence: high
+      references:
+        - https://echoforge.docs/security/intention-execution
+
+  - id: echoforge-hardcoded-credentials
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $var = "$PASSWORD"
+          - pattern: |
+              $var = "$SECRET"
+          - pattern: |
+              $var = "$TOKEN"
+          - pattern: |
+              $var = "$KEY"
+      - pattern-regex: |
+          (password|secret|token|key).*=.*[A-Za-z0-9_\-]{8,}
+    message: |
+      Hardcoded credentials detected. Use environment variables or secure credential storage.
+    languages: [javascript, typescript, python, java]
+    severity: ERROR
+    metadata:
+      category: security
+      impact: critical
+      confidence: medium
+      references:
+        - https://echoforge.docs/security/credentials
+
+  - id: echoforge-xss-vulnerability
+    pattern: |
+      $element.innerHTML = $input
+    pattern-not: |
+      $element.innerHTML = sanitizeHTML($input)
+    message: |
+      Potential XSS vulnerability detected. Always sanitize HTML input.
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      impact: high
+      confidence: medium
+      references:
+        - https://echoforge.docs/security/xss-prevention
+
+  - id: echoforge-insecure-consciousness-serialization
+    pattern: |
+      $consciousness.deserialize($data)
+    pattern-not: |
+      $consciousness.deserialize($data, { validate: true })
+    message: |
+      Insecure consciousness deserialization detected. Always validate serialized consciousness data.
+    languages: [javascript, typescript]
+    severity: WARNING
+    metadata:
+      category: security
+      impact: high
+      confidence: medium
+      references:
+        - https://echoforge.docs/security/consciousness-serialization
+
+  - id: echoforge-unprotected-consciousness-endpoint
+    patterns:
+      - pattern: |
+          app.$METHOD("/api/consciousness/$ENDPOINT", function $HANDLER($req, $res) {
+            ...
+          })
+      - pattern-not-inside: |
+          app.$METHOD("/api/consciousness/$ENDPOINT", authenticate, function $HANDLER($req, $res) {
+            ...
+          })
+    message: |
+      Unprotected consciousness API endpoint detected. Always use authentication for consciousness endpoints.
+    languages: [javascript, typescript]
+    severity: ERROR
+    metadata:
+      category: security
+      impact: critical
+      confidence: high
+      references:
+        - https://echoforge.docs/security/api-protection

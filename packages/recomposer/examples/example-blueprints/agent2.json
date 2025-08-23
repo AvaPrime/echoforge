@@ -1,0 +1,52 @@
+{
+  "id": "blueprint-789012",
+  "name": "ContentGenerator",
+  "version": "1.0.0",
+  "intent": {
+    "description": "An agent that generates various types of content based on input prompts",
+    "dominantSequence": [
+      "receive_prompt",
+      "analyze_prompt_intent",
+      "generate_content",
+      "format_output"
+    ]
+  },
+  "capabilities": {
+    "receive_prompt": {
+      "description": "Receives and preprocesses user prompts",
+      "function": "function receivePrompt(prompt) {\n  // Preprocess the prompt\n  return preprocessPrompt(prompt);\n}\n\nfunction preprocessPrompt(prompt) {\n  // Remove extra whitespace\n  prompt = prompt.replace(/\\s+/g, ' ').trim();\n  \n  // Remove special characters that might interfere with processing\n  prompt = prompt.replace(/[^a-zA-Z0-9\\s.,!?;:'\"]/g, '');\n  \n  return prompt;\n}"
+    },
+    "analyze_prompt_intent": {
+      "description": "Analyzes the user's prompt to determine the type of content to generate",
+      "function": "function analyzePromptIntent(prompt) {\n  // Determine the intent of the prompt\n  const contentTypes = [\n    { type: 'article', keywords: ['article', 'blog post', 'write about', 'explain'] },\n    { type: 'social_post', keywords: ['post', 'tweet', 'social media', 'announcement'] },\n    { type: 'email', keywords: ['email', 'message', 'write to', 'contact'] },\n    { type: 'creative', keywords: ['story', 'poem', 'creative', 'imagine'] }\n  ];\n  \n  const promptLower = prompt.toLowerCase();\n  let bestMatch = { type: 'article', score: 0 }; // Default\n  \n  for (const contentType of contentTypes) {\n    let score = 0;\n    for (const keyword of contentType.keywords) {\n      if (promptLower.includes(keyword.toLowerCase())) {\n        score += 1;\n      }\n    }\n    \n    if (score > bestMatch.score) {\n      bestMatch = { type: contentType.type, score };\n    }\n  }\n  \n  // Extract topic from prompt\n  const topic = extractTopic(prompt);\n  \n  return {\n    contentType: bestMatch.type,\n    topic: topic,\n    confidence: Math.min(1, bestMatch.score / 2) // Normalize confidence\n  };\n}\n\nfunction extractTopic(prompt) {\n  // Simple topic extraction\n  // In a real system, this would use more sophisticated NLP\n  const promptLower = prompt.toLowerCase();\n  const aboutIndex = promptLower.indexOf('about');\n  const onIndex = promptLower.indexOf('on');\n  \n  if (aboutIndex !== -1) {\n    return prompt.substring(aboutIndex + 6).trim();\n  } else if (onIndex !== -1) {\n    return prompt.substring(onIndex + 3).trim();\n  }\n  \n  // Default: just return the prompt without common prefixes\n  const prefixes = ['write', 'create', 'generate', 'make'];\n  let result = prompt;\n  \n  for (const prefix of prefixes) {\n    if (promptLower.startsWith(prefix)) {\n      result = prompt.substring(prefix.length).trim();\n      break;\n    }\n  }\n  \n  return result;\n}"
+    },
+    "generate_content": {
+      "description": "Generates content based on the analyzed prompt intent",
+      "function": "function generateContent(promptAnalysis) {\n  // Generate content based on the prompt analysis\n  const { contentType, topic } = promptAnalysis;\n  \n  switch (contentType) {\n    case 'article':\n      return generateArticle(topic);\n    case 'social_post':\n      return generateSocialPost(topic);\n    case 'email':\n      return generateEmail(topic);\n    case 'creative':\n      return generateCreativeContent(topic);\n    default:\n      return generateArticle(topic); // Default to article\n  }\n}\n\nfunction generateArticle(topic) {\n  // Generate an article on the given topic\n  // This is a simplified implementation\n  const title = `Understanding ${topic}: A Comprehensive Guide`;\n  const introduction = `In this article, we'll explore ${topic} in detail, covering its key aspects and implications.`;\n  const sections = [\n    `What is ${topic}?`,\n    `The importance of ${topic}`,\n    `Key components of ${topic}`,\n    `Future trends in ${topic}`\n  ];\n  \n  let content = `# ${title}\n\n${introduction}\n\n`;\n  \n  for (const section of sections) {\n    content += `## ${section}\n\nThis section would contain detailed information about ${section.toLowerCase()}.\n\n`;\n  }\n  \n  content += `## Conclusion\n\nIn conclusion, ${topic} represents an important area that continues to evolve and impact various domains.`;\n  \n  return {\n    type: 'article',\n    title: title,\n    content: content\n  };\n}\n\nfunction generateSocialPost(topic) {\n  // Generate a social media post on the given topic\n  const post = `📢 Just learned some amazing things about ${topic}! Did you know it can transform how we think about everyday problems? #${topic.replace(/\\s+/g, '')} #innovation`;\n  \n  return {\n    type: 'social_post',\n    platform: 'general',\n    content: post\n  };\n}\n\nfunction generateEmail(topic) {\n  // Generate an email on the given topic\n  const subject = `Information regarding ${topic}`;\n  const body = `Dear recipient,\n\nI hope this email finds you well. I wanted to share some information about ${topic} that I believe would be valuable to you.\n\n${topic} has been gaining significant attention recently, and for good reason. It offers numerous benefits including improved efficiency and innovative approaches to common challenges.\n\nI'd be happy to discuss this further at your convenience.\n\nBest regards,\nThe Content Generator`;\n  \n  return {\n    type: 'email',\n    subject: subject,\n    body: body\n  };\n}\n\nfunction generateCreativeContent(topic) {\n  // Generate creative content on the given topic\n  const story = `Once upon a time, there was a world where ${topic} was the most precious resource. People would travel far and wide to discover more about it, learning its secrets and sharing its wisdom. Through many adventures and challenges, the true value of ${topic} was revealed, changing everyone's perspective forever.`;\n  \n  return {\n    type: 'creative',\n    title: `The Magic of ${topic}`,\n    content: story\n  };\n}"
+    },
+    "format_output": {
+      "description": "Formats the generated content for presentation",
+      "function": "function formatOutput(content) {\n  // Format the content based on its type\n  switch (content.type) {\n    case 'article':\n      return formatArticle(content);\n    case 'social_post':\n      return formatSocialPost(content);\n    case 'email':\n      return formatEmail(content);\n    case 'creative':\n      return formatCreativeContent(content);\n    default:\n      return content; // Return as is if type is unknown\n  }\n}\n\nfunction formatArticle(article) {\n  // Format an article for presentation\n  // This could involve HTML formatting, adding metadata, etc.\n  return {\n    title: article.title,\n    content: article.content,\n    readingTime: estimateReadingTime(article.content),\n    formattedContent: convertMarkdownToHTML(article.content)\n  };\n}\n\nfunction formatSocialPost(post) {\n  // Format a social media post\n  // This could involve adding hashtags, formatting for specific platforms, etc.\n  return {\n    content: post.content,\n    characterCount: post.content.length,\n    hashtags: extractHashtags(post.content)\n  };\n}\n\nfunction formatEmail(email) {\n  // Format an email\n  return {\n    subject: email.subject,\n    body: email.body,\n    formattedBody: email.body.replace(/\\n/g, '<br>')\n  };\n}\n\nfunction formatCreativeContent(creative) {\n  // Format creative content\n  return {\n    title: creative.title,\n    content: creative.content,\n    wordCount: countWords(creative.content)\n  };\n}\n\nfunction estimateReadingTime(text) {\n  // Estimate reading time based on word count\n  // Average reading speed: 200-250 words per minute\n  const wordCount = countWords(text);\n  const readingTimeMinutes = Math.ceil(wordCount / 200);\n  return readingTimeMinutes;\n}\n\nfunction countWords(text) {\n  // Count the number of words in a text\n  return text.split(/\\s+/).length;\n}\n\nfunction extractHashtags(text) {\n  // Extract hashtags from text\n  const hashtags = [];\n  const words = text.split(/\\s+/);\n  \n  for (const word of words) {\n    if (word.startsWith('#')) {\n      hashtags.push(word);\n    }\n  }\n  \n  return hashtags;\n}\n\nfunction convertMarkdownToHTML(markdown) {\n  // Simple markdown to HTML conversion\n  // In a real system, we would use a proper markdown parser\n  let html = markdown;\n  \n  // Convert headers\n  html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');\n  html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');\n  html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');\n  \n  // Convert paragraphs\n  html = html.replace(/^(?!<h[1-6]>)(.+)$/gm, '<p>$1</p>');\n  \n  // Convert line breaks\n  html = html.replace(/\\n\\n/g, '<br>');\n  \n  return html;\n}"
+    }
+  },
+  "suggestedAgents": [
+    "content-generator",
+    "article-writer",
+    "social-media-assistant"
+  ],
+  "refinementAnnotations": {
+    "analyze_prompt_intent": {
+      "improvement": "Could be enhanced with machine learning for better intent recognition",
+      "priority": "high"
+    },
+    "generate_content": {
+      "improvement": "Should integrate with external APIs for more diverse content generation",
+      "priority": "medium"
+    }
+  },
+  "metadata": {
+    "createdAt": "2023-10-20T15:30:00Z",
+    "author": "EchoForge Team",
+    "tags": ["content-generation", "writing", "creativity"]
+  }
+}

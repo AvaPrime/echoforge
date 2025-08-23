@@ -1,0 +1,29 @@
+# Copy to values-prod.yaml and customize
+global:
+  registry: ghcr.io/your-org
+  tag: v0.1.0
+
+echoCloud:
+  replicaCount: 3
+  env:
+    NODE_ENV: production
+    PORT: "3000"
+
+dashboard:
+  replicaCount: 3
+  env:
+    NODE_ENV: production
+    PORT: "3000"
+    NEXT_PUBLIC_API_BASE: https://api.example.com
+
+ingress:
+  enabled: true
+  className: nginx
+  tls:
+    enabled: true
+    secretName: echoforge-tls
+  hosts:
+    dashboard: dashboard.example.com
+    api: api.example.com
+  canary:
+    enabled: false

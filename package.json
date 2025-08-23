@@ -2,22 +2,57 @@
   "name": "echoforge",
   "private": true,
   "version": "0.1.0",
-  "packageManager": "pnpm@9.0.0",
-  "workspaces": ["apps/*", "packages/*"],
-"scripts": {
+  "packageManager": "pnpm@9.14.4",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "e2e"
+  ],
+  "scripts": {
+    "bootstrap": "pnpm install --frozen-lockfile",
     "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
+    "prebuild": "node scripts/find-deep-imports.mjs && node scripts/check-exports.mjs",
+    "build": "turbo run build --filter=!@echoforge/codalism",
+    "clean": "turbo run clean --parallel",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck --filter=!@echoforge/codalism",
+    "test": "turbo run test --filter=!@echoforge/codalism",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "e2e": "playwright test --config e2e/playwright.config.ts",
+    "e2e:headed": "playwright test --config e2e/playwright.config.ts --headed",
+    "e2e:ui": "playwright test --config e2e/playwright.config.ts --ui",
+    "check:env": "bash ./scripts/check-env.sh",
     "prepare": "husky install",
     "prettier": "prettier --write .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "release": "changeset version && pnpm -w install && turbo run build && changeset publish",
+    "postinstall": "bash ./scripts/check-env.sh || true && pnpm -F @echoforge/env-check run check || true",
+    "test:env-check": "pnpm -F @echoforge/env-check run test",
+    "init:env-check": "node scripts/init-env-check.js"
   },
-"devDependencies": {
-    "lint-staged": "^13.0.3",
-    "husky": "^8.0.0",
-    "turbo": "^1.12.0",
-    "typescript": "^5.4.0",
-    "eslint": "^9.0.0",
-    "prettier": "^3.6.2"
+  "engines": {
+    "node": ">=20.11 || >=22",
+    "pnpm": ">=9"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.5",
+    "@eslint/js": "^9.33.0",
+    "@playwright/test": "^1.54.2",
+    "@typescript-eslint/eslint-plugin": "^8.39.0",
+    "@typescript-eslint/parser": "^8.39.0",
+    "@vitest/coverage-v8": "3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^9.33.0",
+    "globals": "^16.3.0",
+    "husky": "^9.1.7",
+    "knip": "^5.52.0",
+    "lint-staged": "^16.1.5",
+    "prettier": "^3.6.2",
+    "tsup": "^8.0.2",
+    "turbo": "^2.5.4",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   }
 }
