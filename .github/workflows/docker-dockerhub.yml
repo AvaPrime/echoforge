@@ -43,7 +43,7 @@ jobs:
             docker.io/${{ secrets.DOCKERHUB_ORG }}/${{ matrix.app }}:${{ github.ref_name }}
             docker.io/${{ secrets.DOCKERHUB_ORG }}/${{ matrix.app }}:latest
       - name: Trivy image scan (release)
-        uses: aquasecurity/trivy-action@0.22.0
+        uses: aquasecurity/trivy-action@0.32.0
         with:
           image-ref: docker.io/${{ secrets.DOCKERHUB_ORG }}/${{ matrix.app }}:${{ github.ref_name }}
           format: 'table'
