@@ -4,9 +4,8 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { SoulWeaverMetrics } from '../metrics/SoulWeaverMetrics';
+import { SoulWeaverMetrics, SoulWeaverMetricsConfig, ConsciousnessImpactScorecard } from '../metrics/SoulWeaverMetrics';
 import { MockFactory, AsyncTestUtils, PerformanceTestUtils } from '@test-utils';
-import type { SoulWeaverMetricsConfig, ConsciousnessImpactScorecard } from '../metrics/SoulWeaverMetrics';
 
 describe('SoulWeaverMetrics', () => {
   let metrics: SoulWeaverMetrics;
@@ -17,19 +16,18 @@ describe('SoulWeaverMetrics', () => {
     mockEventEmitter = MockFactory.createEventEmitterMock();
     
     mockConfig = {
-      enableMetrics: true,
-      metricsRetentionDays: 30,
-      aggregationInterval: 60000,
-      enableRealTimeUpdates: true,
-      thresholds: {
-        proposalQuality: 0.7,
-        adaptationSpeed: 0.6,
-        feedbackIntegration: 0.8,
-        consciousnessImpact: 0.75,
+      trackEvolutionOutcomes: true,
+      generateConsciousnessImpactScorecard: true,
+      enableDetailedLogging: true,
+      metricsConfig: {
+        enabledMetricTypes: ['PROPOSAL_QUALITY', 'ADAPTATION_SPEED', 'FEEDBACK_INTEGRATION_RATE'],
+        collectionIntervalMs: 60000,
+        retentionPeriodMs: 2592000000, // 30 days
+        aggregationWindowMs: 300000, // 5 minutes
       },
     };
 
-    metrics = new SoulWeaverMetrics(mockConfig, mockEventEmitter);
+    metrics = new SoulWeaverMetrics(mockEventEmitter, mockConfig);
   });
 
   afterEach(() => {

@@ -14,11 +14,13 @@ import {
 } from '../../metrics/types';
 import { CodalogueProtocolLedger } from '../../CodalogueProtocolLedger';
 import { EvolutionProposal } from '../SoulWeaverContract';
+import { Mock } from 'vitest';
 
 /**
  * Interface for consciousness impact scorecard
  */
 export interface ConsciousnessImpactScorecard {
+  overallScore(overallScore: any): unknown;
   proposalId: string;
   emotionalResonanceDelta: number;
   identityCoherenceImpact: number;
@@ -31,6 +33,7 @@ export interface ConsciousnessImpactScorecard {
  * Configuration for SoulWeaver metrics
  */
 export interface SoulWeaverMetricsConfig {
+  aggregationInterval(arg0: any, aggregationInterval: any): unknown;
   /** Whether to track evolution outcomes with metrics */
   trackEvolutionOutcomes: boolean;
   /** Whether to generate consciousness impact scorecards */
@@ -47,6 +50,27 @@ export interface SoulWeaverMetricsConfig {
  * Handles all metrics-related functionality for SoulWeaver operations
  */
 export class SoulWeaverMetrics extends EventEmitter {
+  collectProposalQuality(proposalData: any) {
+    throw new Error('Method not implemented.');
+  }
+  trackFeedbackIntegration(feedbackData: { feedbackReceived: number; feedbackIntegrated: number; integrationTime: number; qualityImprovement: number; }) {
+    throw new Error('Method not implemented.');
+  }
+  updateMetrics(metricsData: any) {
+    throw new Error('Method not implemented.');
+  }
+  cleanupOldMetrics() {
+    throw new Error('Method not implemented.');
+  }
+  getMetricsHistory() {
+    throw new Error('Method not implemented.');
+  }
+  addExternalMonitor(externalMonitor: Mock<(...args: any[]) => any>) {
+    throw new Error('Method not implemented.');
+  }
+  exportMetrics(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   private metricsCollector: MetricsCollector | null = null;
   private consciousnessImpactScorecards: Map<string, ConsciousnessImpactScorecard> = new Map();
   private config: SoulWeaverMetricsConfig;
