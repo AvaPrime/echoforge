@@ -32,7 +32,7 @@ jobs:
           yq -i '.appVersion = "${{ steps.v.outputs.tag }}"' charts/echoforge/Chart.yaml
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: 'chore(chart): bump appVersion to ${{ steps.v.outputs.tag }}'
           title: 'chore(chart): bump appVersion to ${{ steps.v.outputs.tag }}'
